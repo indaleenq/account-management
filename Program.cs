@@ -10,10 +10,33 @@ namespace account_management
             Console.WriteLine();
             Console.WriteLine("type action that you want to make...");
 
-            Console.WriteLine("type \'add\' if you want to add an account");
-            Console.WriteLine("type \'view\' if you want to view the account");
-            Console.WriteLine("type \'verify\' if you want to verify if an account is existing.");
-            Console.WriteLine("type \'exit\' if you want to exit");
+            List<string> usernames = new List<string>();
+            List<string> passwords = new List<string>();
+
+            string[] actions = new[] 
+                                { "type \\'add\\' if you want to add an account\"",
+                                  "type 'view' if you want to view the account",
+                                  "type 'verify' if you want to verify if an account is existing.",
+                                  "type search if you want to search an user account",
+                                  "type \'exit\' if you want to exit"};
+
+
+            //actions.SetValue("DICT NEW ACTION", 2);
+
+            //var indexNum = Array.IndexOf(actions, "type 'verify' if you want to verify if an account is existing.");
+
+            //Console.WriteLine("the index is " + indexNum);
+
+            //for (int i = 0; i < actions.Length; i++)
+            //{
+            //    Console.WriteLine(actions[i]);
+            //}
+
+            foreach (var action in actions)
+            {
+                Console.WriteLine(action);
+            }
+
 
             Console.WriteLine();
 
@@ -22,6 +45,8 @@ namespace account_management
 
             string username = string.Empty;
             string password = string.Empty;
+
+            //int usercounter = 0;
 
             while (useraction != "exit")
             {
@@ -35,13 +60,46 @@ namespace account_management
                         Console.Write("enter password: ");
                         password = Console.ReadLine();
 
+                        usernames.Add(username);
+                        passwords.Add(password);
+
+
                         Console.WriteLine("successfully added user " + username);
 
                         Console.WriteLine();
-                        Console.WriteLine("type \'add\' if you want to add an account");
-                        Console.WriteLine("type \'view\' if you want to view the account");
-                        Console.WriteLine("type \'verify\' if you want to verify if an account is existing.");
-                        Console.WriteLine("type \'exit\' if you want to exit");
+
+                        for (int i = 0; i < actions.Length; i++)
+                        {
+                            Console.WriteLine(actions[i]);
+                        }
+                        Console.WriteLine();
+
+                        Console.Write("type action: ");
+
+                        useraction = Console.ReadLine();
+
+                        break;
+                    case "search" or "SEARCH":
+                        Console.Write("input the username you want to search: ");
+
+                        string toSearch = Console.ReadLine();
+                        bool isExisting =  usernames.Contains(toSearch);
+
+                        if (isExisting)
+                        {
+                            Console.WriteLine("user exists!!!");
+                        }
+                        else
+                        {
+                            Console.WriteLine(toSearch + " is not existing..");
+                        }
+
+
+                        Console.WriteLine();    
+                        for (int i = 0; i < actions.Length; i++)
+                        {
+                            Console.WriteLine(actions[i]);
+                        }
                         Console.WriteLine();
 
                         Console.Write("type action: ");
@@ -50,15 +108,21 @@ namespace account_management
 
                         break;
                     case "view" or "VIEW":
-                        Console.WriteLine("USER DETAILS");
-                        Console.WriteLine("username: " + username);
+                        //Console.WriteLine("USER DETAILS");
+                        //Console.WriteLine("username: " + username);
 
+                        for (int i = 0; i < usernames.Count; i++)
+                        {
+                            Console.WriteLine("username: " + usernames[i]);
+                            Console.WriteLine("password: " + passwords[i]);
+                            Console.WriteLine();
+                        }
 
                         Console.WriteLine();
-                        Console.WriteLine("type \'add\' if you want to add an account");
-                        Console.WriteLine("type \'view\' if you want to view the account");
-                        Console.WriteLine("type \'verify\' if you want to verify if an account is existing.");
-                        Console.WriteLine("type \'exit\' if you want to exit");
+                        for (int i = 0; i < actions.Length; i++)
+                        {
+                            Console.WriteLine(actions[i]);
+                        }
                         Console.WriteLine();
 
                         Console.Write("type action: ");
@@ -86,10 +150,10 @@ namespace account_management
 
 
                         Console.WriteLine();
-                        Console.WriteLine("type \'add\' if you want to add an account");
-                        Console.WriteLine("type \'view\' if you want to view the account");
-                        Console.WriteLine("type \'verify\' if you want to verify if an account is existing.");
-                        Console.WriteLine("type \'exit\' if you want to exit");
+                        for (int i = 0; i < actions.Length; i++)
+                        {
+                            Console.WriteLine(actions[i]);
+                        }
                         Console.WriteLine();
 
                         Console.Write("type action: ");
