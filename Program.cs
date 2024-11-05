@@ -1,164 +1,69 @@
-﻿using System.Collections.Concurrent;
+﻿using System;
+using System.Collections.Concurrent;
 
 namespace account_management
 {
     internal class Program
     {
+        //defined and created container for all menu actions
+        static string[] actions = new[]
+                            { "type \\'add\\' if you want to add an account\"",
+                                  "type 'view' if you want to view the account",
+                                  "type search if you want to search an user account",
+                                  "type \'exit\' if you want to exit"};
+        static List<string> usernames = new List<string>();
+        static List<string> passwords = new List<string>();
+
         static void Main(string[] args)
         {
             Console.WriteLine("welcome to account management tool");
             Console.WriteLine();
             Console.WriteLine("type action that you want to make...");
 
-            List<string> usernames = new List<string>();
-            List<string> passwords = new List<string>();
-
-            string[] actions = new[] 
-                                { "type \\'add\\' if you want to add an account\"",
-                                  "type 'view' if you want to view the account",
-                                  "type 'verify' if you want to verify if an account is existing.",
-                                  "type search if you want to search an user account",
-                                  "type \'exit\' if you want to exit"};
-
-
-            //actions.SetValue("DICT NEW ACTION", 2);
-
-            //var indexNum = Array.IndexOf(actions, "type 'verify' if you want to verify if an account is existing.");
-
-            //Console.WriteLine("the index is " + indexNum);
-
-            //for (int i = 0; i < actions.Length; i++)
-            //{
-            //    Console.WriteLine(actions[i]);
-            //}
-
-            foreach (var action in actions)
-            {
-                Console.WriteLine(action);
-            }
-
+            DisplayActions();
 
             Console.WriteLine();
 
-            Console.Write("type action: ");
-            string useraction = Console.ReadLine();
-
-            string username = string.Empty;
-            string password = string.Empty;
-
-            //int usercounter = 0;
+            string useraction = GetUserAction();
 
             while (useraction != "exit")
             {
-
                 switch (useraction)
                 {
                     case "add" or "ADD":
-                        Console.WriteLine("ADD USER ACCOUNT");
-                        Console.Write("enter username: ");
-                        username = Console.ReadLine();
-                        Console.Write("enter password: ");
-                        password = Console.ReadLine();
-
-                        usernames.Add(username);
-                        passwords.Add(password);
-
-
-                        Console.WriteLine("successfully added user " + username);
+                        AddUser();
 
                         Console.WriteLine();
-
-                        for (int i = 0; i < actions.Length; i++)
-                        {
-                            Console.WriteLine(actions[i]);
-                        }
+                        DisplayActions();
                         Console.WriteLine();
-
-                        Console.Write("type action: ");
-
-                        useraction = Console.ReadLine();
+                        useraction = GetUserAction();
 
                         break;
                     case "search" or "SEARCH":
-                        Console.Write("input the username you want to search: ");
-
-                        string toSearch = Console.ReadLine();
-                        bool isExisting =  usernames.Contains(toSearch);
-
-                        if (isExisting)
+                        
+                        if (SearchUser())
                         {
                             Console.WriteLine("user exists!!!");
                         }
                         else
                         {
-                            Console.WriteLine(toSearch + " is not existing..");
+                            Console.WriteLine("not existing..");
                         }
 
-
-                        Console.WriteLine();    
-                        for (int i = 0; i < actions.Length; i++)
-                        {
-                            Console.WriteLine(actions[i]);
-                        }
                         Console.WriteLine();
-
-                        Console.Write("type action: ");
-
-                        useraction = Console.ReadLine();
+                        DisplayActions();
+                        Console.WriteLine();
+                        useraction = GetUserAction();
 
                         break;
                     case "view" or "VIEW":
-                        //Console.WriteLine("USER DETAILS");
-                        //Console.WriteLine("username: " + username);
 
-                        for (int i = 0; i < usernames.Count; i++)
-                        {
-                            Console.WriteLine("username: " + usernames[i]);
-                            Console.WriteLine("password: " + passwords[i]);
-                            Console.WriteLine();
-                        }
+                        DisplayUsers(usernames, passwords);
 
                         Console.WriteLine();
-                        for (int i = 0; i < actions.Length; i++)
-                        {
-                            Console.WriteLine(actions[i]);
-                        }
+                        DisplayActions();
                         Console.WriteLine();
-
-                        Console.Write("type action: ");
-
-                        useraction = Console.ReadLine();
-
-                        break;
-                    case "verify" or "VERIFY":
-                        Console.WriteLine("Verify account details");
-
-                        Console.Write("Enter username: ");
-                        string usernameguess = Console.ReadLine();
-
-                        Console.Write("Enter password: ");
-                        string passwordguess = Console.ReadLine();
-
-                        if (usernameguess.Equals(username) && passwordguess.Equals(password))
-                        {
-                            Console.WriteLine("account verified. account is existing.");
-                        }
-                        else
-                        {
-                            Console.WriteLine("incorrect username or password.");
-                        }
-
-
-                        Console.WriteLine();
-                        for (int i = 0; i < actions.Length; i++)
-                        {
-                            Console.WriteLine(actions[i]);
-                        }
-                        Console.WriteLine();
-
-                        Console.Write("type action: ");
-
-                        useraction = Console.ReadLine();
+                        useraction = GetUserAction();
 
                         break;
                     default:
@@ -171,5 +76,63 @@ namespace account_management
 
             Environment.Exit(0);
         }
+
+        static public void DisplayActions()
+        {
+            //display actions
+            foreach (var action in actions)
+            {
+                Console.WriteLine(action);
+            }
+        }
+
+        public static string GetUserAction()
+        {
+            Console.Write("type user action: ");
+            return Console.ReadLine();
+        }
+
+        public static void DisplayUsers(List<string> users, List<string> passes)
+        {
+            for (int i = 0; i < users.Count; i++)
+            {
+                Console.WriteLine("username: " + users[i]);
+                Console.WriteLine("password: " + passes[i]);
+                Console.WriteLine();
+            }
+        }
+
+        public static void AddUser()
+        {
+            string username = string.Empty;
+            string password = string.Empty;
+
+            //perform add functionality
+            Console.WriteLine("ADD USER ACCOUNT");
+            Console.Write("enter username: ");
+            username = Console.ReadLine();
+            Console.Write("enter password: ");
+            password = Console.ReadLine();
+
+            usernames.Add(username);
+            passwords.Add(password);
+
+            Console.WriteLine("successfully added user " + username);
+
+
+        }
+
+        public static bool SearchUser()
+        {
+            //perform search functionality
+            Console.Write("input the username you want to search: ");
+
+            string toSearch = Console.ReadLine();
+            bool isExisting = usernames.Contains(toSearch);
+
+            return isExisting;
+        }
+
+        //....
     }
 }
